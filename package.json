@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "A reverse ETL tool that takes clean, processed data from Google Sheets and pushes into Mixpanel.",
   "main": "index.ts",
+  "type": "module",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node --esm server/index.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,9 @@
   "homepage": "https://github.com/CodeSeeker-io/MixETL#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "fetch": "^1.1.0"
+    "fetch": "^1.1.0",
+    "googleapis": "^109.0.1",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.14",
