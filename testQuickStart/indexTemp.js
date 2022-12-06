@@ -1,10 +1,8 @@
 import { promises } from 'fs';
-import * as path from 'path';
-import * as process from 'process';
+import path from 'path';
+import process from 'process';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
-import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
 
 const { readFile, writeFile } = promises;
 
@@ -24,7 +22,7 @@ const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 async function loadSavedCredentialsIfExist() {
   try {
     const content = await readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content.toString());
+    const credentials = JSON.parse(content);
     return google.auth.fromJSON(credentials);
   } catch (err) {
     return null;
@@ -37,11 +35,9 @@ async function loadSavedCredentialsIfExist() {
  * @param {OAuth2Client} client
  * @return {Promise<void>}
  */
-
-
-async function saveCredentials(client : OAuth2Client | JSONClient) {
+async function saveCredentials(client) {
   const content = await readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content.toString());
+  const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
   const payload = JSON.stringify({
     type: 'authorized_user',
@@ -57,7 +53,7 @@ async function saveCredentials(client : OAuth2Client | JSONClient) {
  *
  */
 async function authorize() {
-  let client: OAuth2Client | JSONClient = await loadSavedCredentialsIfExist();
+  let client = await loadSavedCredentialsIfExist();
   if (client) {
     return client;
   }
@@ -76,7 +72,7 @@ async function authorize() {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-async function listMajors(auth: OAuth2Client) {
+async function listMajors(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
