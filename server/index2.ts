@@ -1,16 +1,22 @@
 import express from 'express';
 // import fetch from 'node-fetch';
-// import fs from 'fs';
-// import readline from 'readline';
+import fs from 'fs';
+import readline from 'readline';
 
 // import { google } from 'googleapis';
+import {
+  google, // The top level object used to access services
+  sheets_v4, // For every service client, there is an exported namespace
+  Auth, // Namespace for auth related types
+  Common, // General types used throughout the library
+} from 'googleapis';
 
 const app = express();
 app.use(express.json());
 
-// const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-// const TOKEN_PATH = 'secrets/token.json';
-// const CRED_PATH = 'secrets/gsheets.json';
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
+const TOKEN_PATH = 'secrets/token.json';
+const CRED_PATH = 'secrets/gsheets.json';
 
 // //set app view engine
 // app.set('view engine', 'ejs');

@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution":"node",
     "noImplicitAny": true,
     "removeComments": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "./testQuickStart/index.ts"],
   "exclude": [
     "node_modules/**/*"
   ]
