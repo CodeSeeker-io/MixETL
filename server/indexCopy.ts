@@ -5,6 +5,7 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
+import * as readline from 'readline';
 
 const { readFile, writeFile } = promises;
 
@@ -15,6 +16,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // time.
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+const SHEET_DATA = path.join(process.cwd(), 'data.js');
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -71,6 +73,34 @@ async function authorize() {
   return client;
 }
 
+const spreadsheetData = { 
+  spreadsheetId: 'spreadsheet id', 
+  range: 'spreadsheet id',//how can I make this value a num OR string, depending if they want all ranges or only specific ranges 
+};
+
+function getSpreadsheetId (question: string) { 
+  const rl = readline.createInterface({
+      input: process.stdin, 
+      output: process.stdout 
+  })
+  rl.question(question, (answer: string) => {
+      spreadsheetData.spreadsheetId = answer;
+  })
+};
+
+function getSpreadsheetRange (question: string) { 
+  const rl = readline.createInterface({
+      input: process.stdin, 
+      output: process.stdout 
+  })
+  rl.question('What is your range?', (answer: string) => {
+      spreadsheetData.range = answer; 
+  })
+};
+getSpreadsheetId('what is your spreadsheet id?');
+getSpreadsheetRange('what is your range?');
+
+ //instead of range, 
 /**
  * Prints the names and majors of students in a sample spreadsheet:
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
@@ -78,10 +108,8 @@ async function authorize() {
  */
 async function listMajors(auth: OAuth2Client) {
   const sheets = google.sheets({version: 'v4', auth});
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: '1SAAe514T9qqiBTc-035Vc4fwUkEjI-MTsTYqDdb8Ah0',
-    range: 'Class Data!A2:E',
-  });
+  const res = await sheets.spreadsheets.values.get(spreadsheetData);
+  console.log(spreadsheetData)
   const rows = res.data.values;
   if (!rows || rows.length === 0) {
     console.log('No data found.');
@@ -93,7 +121,8 @@ async function listMajors(auth: OAuth2Client) {
     console.log(`${row[0]}, ${row[4]}`);
   });
 }
+//file that does readline 
+//get data and get map functions that woud generate the json that we need 
+//don't interact with sheets api at all 
 
 authorize().then(listMajors).catch(console.error);
-
-//run a scrip that will run the readline file 
