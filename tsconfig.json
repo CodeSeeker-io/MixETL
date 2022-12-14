@@ -5,7 +5,7 @@
     "moduleResolution":"node",
     "noImplicitAny": true,
     "removeComments": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
   },
   "include": ["./**/*.ts", "./testQuickStart/index.ts"],
   "exclude": [

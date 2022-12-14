@@ -7,13 +7,15 @@ const getInput = async (): Promise<string[]> => {
   const input: string[] = [];
   const rl = readline.createInterface(stdin, stdout);
   const questions: string[] = [
-    'What is your spreadsheet id?',
-    'What is your spreadsheet name'
+    'What is the name of your event column?',
+    'What is the name of your distinct_id column?',
+    'Do you have a time column?',
+    'What is the name of your event column?',
   ];
   let answer: string;
   for (let i = 0; i < questions.length; i++) {
     // eslint-disable-next-line no-await-in-loop
-    answer = await rl.question(`${questions[i]} \t`);
+    answer = await rl.question(${questions[i]} \t);
     input.push(answer);
   }
   rl.close();
