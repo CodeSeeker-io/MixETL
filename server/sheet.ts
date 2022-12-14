@@ -1,9 +1,11 @@
 
 import { getInput } from './readline';
 
-const spreadsheetCreds: { id: string; name: string } = {
-    id: 'spreadsheetId',
-    name: 'spreadsheetName',
+/* Get data user spreadsheet credentials */ 
+
+const spreadsheetCreds: { spreadsheetId: string; range: string } = {
+    spreadsheetId: 'spreadsheetId',
+    range: 'spreadsheetName',
   };
 
 const getSheetCredentials = async () => {
@@ -15,6 +17,6 @@ const getSheetCredentials = async () => {
     })
     console.log(spreadsheetCreds)
   }
-  getSheetCredentials(); 
+//   getSheetCredentials(); 
 
-  export { getSheetCredentials };
+  export { getSheetCredentials, spreadsheetCreds };
