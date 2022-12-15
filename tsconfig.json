@@ -7,7 +7,7 @@
     "removeComments": true,
     "esModuleInterop": true,
   },
-  "include": ["./**/*.ts", "./testQuickStart/index.ts"],
+  "include": ["./**/*.ts", "./server/index.ts"],
   "exclude": [
     "node_modules/**/*"
   ]

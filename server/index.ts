@@ -5,7 +5,7 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
-import { getSheetCredentials, spreadsheetCreds } from './sheet.ts';
+import { getSheetCredentials, sheetCredentials } from './sheet.js';
 
 const { readFile, writeFile } = promises;
 
@@ -79,9 +79,12 @@ async function authorize() {
  */
 async function writeData(auth: OAuth2Client) {
   getSheetCredentials();
-  const sheets = google.sheets({version: 'v4', auth});
-  const res = await sheets.spreadsheets.values.get(spreadsheetCreds);
-  await writeFile(SHEET_DATA, res.toString())
+  const sheetData = google.sheets({version: 'v4', auth});
+  const res = await sheetData.spreadsheets.values.get({
+    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    range: 'Class Data!A2:E',
+  });
+  await writeFile(SHEET_DATA, res.toString());
 }
 
 authorize().then(writeData).catch(console.error);

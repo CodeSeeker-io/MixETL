@@ -1,3 +1,27 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,13 +31,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { promises } from 'fs';
-import * as path from 'path';
-import * as process from 'process';
-import { authenticate } from '@google-cloud/local-auth';
-import { google } from 'googleapis';
-import * as readline from 'readline';
-const { readFile, writeFile } = promises;
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = require("fs");
+const path = __importStar(require("path"));
+const process = __importStar(require("process"));
+const local_auth_1 = require("@google-cloud/local-auth");
+const googleapis_1 = require("googleapis");
+const readline = __importStar(require("readline"));
+const { readFile, writeFile } = fs_1.promises;
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
@@ -23,7 +48,7 @@ function loadSavedCredentialsIfExist() {
         try {
             const content = yield readFile(TOKEN_PATH);
             const credentials = JSON.parse(content.toString());
-            return google.auth.fromJSON(credentials);
+            return googleapis_1.google.auth.fromJSON(credentials);
         }
         catch (err) {
             return null;
@@ -50,7 +75,7 @@ function authorize() {
         if (client) {
             return client;
         }
-        client = yield authenticate({
+        client = yield (0, local_auth_1.authenticate)({
             scopes: SCOPES,
             keyfilePath: CREDENTIALS_PATH,
         });
@@ -88,7 +113,7 @@ getSpreadsheetId('what is your spreadsheet id?');
 getSpreadsheetRange('what is your range?');
 function listMajors(auth) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sheets = google.sheets({ version: 'v4', auth });
+        const sheets = googleapis_1.google.sheets({ version: 'v4', auth });
         const res = yield sheets.spreadsheets.values.get(spreadsheetData);
         console.log(spreadsheetData);
         const rows = res.data.values;

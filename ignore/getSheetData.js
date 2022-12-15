@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const spreadsheetData = {
     id: 'spreadsheetId',
     name: 'spreadsheetName',
@@ -9,4 +11,3 @@ const transfer = (input, key) => {
     }, initialVal);
 };
 console.log(transfer(results));
-export {};
