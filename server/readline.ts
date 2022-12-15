@@ -3,13 +3,10 @@ import { stdin, stdout } from 'node:process';
 
 const createMap = (input: string[]) => {};
 
-const getInput = async (): Promise<string[]> => {
+const getInput = async (questions: string[]): Promise<string[]> => {
   const input: string[] = [];
   const rl = readline.createInterface(stdin, stdout);
-  const questions: string[] = [
-    'What is your spreadsheet id?',
-    'What is your spreadsheet name?',
-  ];
+ 
   for (let i = 0; i < questions.length; i++) {
     // eslint-disable-next-line no-await-in-loop
     const answer = await rl.question(`${questions[i]} \t`);
@@ -18,6 +15,14 @@ const getInput = async (): Promise<string[]> => {
   rl.close();
   return input;
 };
+
+export { createMap, getInput };
+
+
+/* cannot figure out a ts-safe way to create an object
+instead of an array, because you ts wants you to define 
+object properties right off the bat */ 
+
 
 // const main = async () => {
 //   const results = await getInput();
@@ -44,4 +49,3 @@ const getInput = async (): Promise<string[]> => {
 // getSheetCredentials(); 
 
 
-export { createMap, getInput };

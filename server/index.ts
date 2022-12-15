@@ -5,7 +5,7 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
-import { getSheetCredentials, spreadsheetCreds } from './sheet';
+import { getSheetCredentials, spreadsheetCreds } from './sheet.ts';
 
 const { readFile, writeFile } = promises;
 
@@ -16,7 +16,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // time.
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
-const SHEET_DATA = path.join(process.cwd(), 'data.js');
+const SHEET_DATA = path.join(process.cwd(), 'data.json');
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -72,6 +72,24 @@ async function authorize() {
   }
   return client;
 }
+/**
+ * Get spreadsheet credentials, make a GSheets GET request using these credentials,
+ *  and print the spreadsheet data to a local file 'data.js'
+ *
+ */
+async function writeData(auth: OAuth2Client) {
+  getSheetCredentials();
+  const sheets = google.sheets({version: 'v4', auth});
+  const res = await sheets.spreadsheets.values.get(spreadsheetCreds);
+  await writeFile(SHEET_DATA, res.toString())
+}
+
+authorize().then(writeData).catch(console.error);
+
+
+
+
+
 
 
 // /**
@@ -93,14 +111,3 @@ async function authorize() {
       //     console.log(`${row[0]}, ${row[4]}`);
       //   });
       // }
-      
-        async function writeData(auth: OAuth2Client) {
-          getSheetCredentials();
-          const sheets = google.sheets({version: 'v4', auth});
-          const res = await sheets.spreadsheets.values.get(spreadsheetCreds);
-          await writeFile(SHEET_DATA, res.toString())
-        }
-  
-      
-
-authorize().then(writeData).catch(console.error);
