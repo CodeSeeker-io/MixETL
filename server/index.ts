@@ -40,8 +40,7 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 
-
-async function saveCredentials(client : OAuth2Client | JSONClient) {
+async function saveCredentials(client: OAuth2Client | JSONClient) {
   const content = await readFile(CREDENTIALS_PATH);
   const keys = JSON.parse(content.toString());
   const key = keys.installed || keys.web;
@@ -79,7 +78,7 @@ async function authorize() {
  */
 async function writeData(auth: OAuth2Client) {
   getSheetCredentials();
-  const sheetData = google.sheets({version: 'v4', auth});
+  const sheetData = google.sheets({ version: 'v4', auth });
   const res = await sheetData.spreadsheets.values.get({
     spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
     range: 'Class Data!A2:E',
@@ -89,28 +88,22 @@ async function writeData(auth: OAuth2Client) {
 
 authorize().then(writeData).catch(console.error);
 
-
-
-
-
-
-
 // /**
 //  * Prints the names and majors of students in a sample spreadsheet:
 //  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
 //  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
 //  */
 // async function listMajors(auth: OAuth2Client) {
-  //   const sheets = google.sheets({version: 'v4', auth});
-  //   const res = await sheets.spreadsheets.values.get(spreadsheetCreds);
-  //   const rows = res.data.values;
-  //   if (!rows || rows.length === 0) {
-    //     console.log('No data found.');
-    //     return;
-    //   }
-    //   console.log('Name, Major:');
-    //   rows.forEach((row) => {
-      //     // Print columns A and E, which correspond to indices 0 and 4.
-      //     console.log(`${row[0]}, ${row[4]}`);
-      //   });
-      // }
+//   const sheets = google.sheets({version: 'v4', auth});
+//   const res = await sheets.spreadsheets.values.get(spreadsheetCreds);
+//   const rows = res.data.values;
+//   if (!rows || rows.length === 0) {
+//     console.log('No data found.');
+//     return;
+//   }
+//   console.log('Name, Major:');
+//   rows.forEach((row) => {
+//     // Print columns A and E, which correspond to indices 0 and 4.
+//     console.log(`${row[0]}, ${row[4]}`);
+//   });
+// }
